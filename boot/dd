@@ -1,0 +1,3 @@
+dd if=mbr.bin of=/home/zy/workspace/systemWorkspace/newSys/bochs/bochs/bin/hd60M.img bs=512 count=1 conv=notrunc
+
+dd if=loader.bin of=/home/zy/workspace/systemWorkspace/newSys/bochs/bochs/bin/hd60M.img bs=512 count=2 seek=2 conv=notrunc
