@@ -1,3 +1,4 @@
 boot/copy/
 boot/loader.bin
 boot/mbr.bin
+build/

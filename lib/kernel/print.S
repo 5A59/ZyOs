@@ -111,7 +111,7 @@ put_char:
 ; 屏幕行范围是0-24,将1-24搬运到0-23，24行用空格填充实现滚屏
 .roll_screen: ; 滚屏
   cld ; 清楚方向位
-  mov eax, 960 ; 一共有2000-80=1920个字符,一共1920*2=3840字节,一次搬4字节，一共3840/4=960次
+  mov ecx, 960 ; 一共有2000-80=1920个字符,一共1920*2=3840字节,一次搬4字节，一共3840/4=960次
   mov esi, 0xb80a0 ; 第一行行首
   mov edi, 0xb8000 ; 第0行行首
   rep movsd ; 复制数据
@@ -201,5 +201,25 @@ put_int:
   mov cl, [put_int_buffer + edi]
   cmp edi, 8
   jl .put_each_num
+  popad
+  ret
+
+global set_cursor
+set_cursor:
+  pushad
+  mov bx, [esp+36]
+  mov dx, 0x03d4
+  mov al, 0x0e
+  out dx, al
+  mov dx, 0x03d5
+  mov al, bh
+  out dx, al
+
+  mov dx, 0x03d4
+  mov al, 0x0f
+  out dx, al
+  mov dx, 0x03d5
+  mov al, bl
+  out dx, al
   popad
   ret
