@@ -14,5 +14,6 @@ void init_all() {
    mem_init(); // 初始化内存管理系统
    thread_init(); // 初始化线程相关
    timer_init();  // 初始化PIT
-   console_init(); // 
+   console_init(); // 控制台初始化
+   keyboard_init(); // 键盘初始化
 }
