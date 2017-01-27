@@ -5,7 +5,8 @@
 #include "memory.h"
 #include "thread.h"
 #include "console.h"
-//#include "../device/timer.h"		  // 用相对路径演示头文件包含
+#include "keyboard.h"
+#include "tss.h"
 
 /*负责初始化所有模块 */
 void init_all() {
@@ -16,4 +17,5 @@ void init_all() {
    timer_init();  // 初始化PIT
    console_init(); // 控制台初始化
    keyboard_init(); // 键盘初始化
+   tss_init(); // tss初始化
 }
