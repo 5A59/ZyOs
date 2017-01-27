@@ -13,13 +13,14 @@ void u_prog_a(void);
 void u_prog_b(void);
 int prog_a_pid = 0;
 int prog_b_pid = 0;
+int prog_a_val = 0;
 
 int main(void) {
 	put_str("I am kernel \n");
 	init_all();
 
-	//process_execute(u_prog_a, "user_prog_a");
-	//process_execute(u_prog_b, "user_prog_b");
+	process_execute(u_prog_a, "user_prog_a");
+	process_execute(u_prog_b, "user_prog_b");
 
 	intr_enable(); // 打开中断，时钟中断起作用
 	console_put_str(" main_pid:0x");

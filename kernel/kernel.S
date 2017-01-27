@@ -104,6 +104,7 @@ syscall_handler:
 ; 1.保存上下文环境
   push 0
   push ds
+  push es
   push fs
   push gs
   pushad ; pushad 指令压入32位寄存器 入栈顺序是: eax, ecx, edx, ebx, esp, ebp, esi, edi
