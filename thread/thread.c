@@ -7,6 +7,7 @@
 #include "print.h"
 #include "memory.h"
 #include "process.h"
+#include "sync.h"
 
 #define PG_SIZE 4096
 
@@ -14,6 +15,7 @@ struct task_struct* main_thread; // 主线程pcb
 struct list thread_ready_list; // 就绪队列
 struct list thread_all_list; // 保存所有的线程
 static struct list_elem* thread_tag; // 保存队列中的线程节点
+struct lock pid_lock; // 分配pid锁
 
 extern void switch_to(struct task_struct* cur, struct task_struct* next); // 切换线程
 
@@ -29,6 +31,15 @@ static void kernel_thread(thread_func* function, void* func_arg) {
 	// 开中断，接受时钟中断 从而调度其他线程
 	intr_enable();
 	function(func_arg);
+}
+
+// 分配pid
+static pid_t allocate_pid(void) {
+	static pid_t next_pid = 0;
+	lock_acquire(&pid_lock);
+	next_pid ++;
+	lock_release(&pid_lock);
+	return next_pid;
 }
 
 // 创建线程pcb,初始化task_struct
@@ -49,6 +60,7 @@ void thread_create(struct task_struct* pthread, thread_func function, void* func
 // prio : 线程优先级
 void init_thread(struct task_struct* pthread, char* name, int prio) {
 	memset(pthread, 0, sizeof(*pthread));
+	pthread->pid = allocate_pid();
 	strcpy(pthread->name, name);
 
 	if (pthread == main_thread) {
@@ -160,6 +172,7 @@ void thread_init(void) {
 	put_str("thread_init start \n");
 	list_init(&thread_ready_list);
 	list_init(&thread_all_list);
+	lock_init(&pid_lock);
 	make_main_thread();
 	put_str("thread_init done \n");
 }
