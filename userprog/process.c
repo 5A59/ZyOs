@@ -97,6 +97,7 @@ void process_execute(void* filename, char* name) {
 	// start_process 是线程执行的函数，filename是函数的参数
 	thread_create(thread, start_process, filename);
 	thread->pgdir = create_page_dir();
+	block_desc_init(thread->u_block_desc);
 
 	// 把进程添加到任务列表中
 	enum intr_status old_status = intr_disable();
