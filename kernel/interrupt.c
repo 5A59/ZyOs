@@ -52,9 +52,10 @@ static void pic_init(void) {
    //outb (PIC_M_DATA, 0xfe);
    //outb (PIC_S_DATA, 0xff);
    
-   // 打开时钟中断和键盘中断
-   outb(PIC_M_DATA, 0xfc);
-   outb(PIC_S_DATA, 0xff);
+   // 打开时钟中断和键盘中断和级联从片的IRQ2,其他关闭
+   outb(PIC_M_DATA, 0xf8);
+   //打开从片上的IRQ14,接受硬盘控制器的中断
+   outb(PIC_S_DATA, 0xbf);
 
    put_str("   pic_init done\n");
 }
