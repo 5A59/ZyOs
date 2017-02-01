@@ -22,7 +22,7 @@ bool ioq_full(struct ioqueue* ioq) {
 }
 
 /* 判断队列是否已空 */
-bool ioq_empty(struct ioqueue* ioq) {
+static bool ioq_empty(struct ioqueue* ioq) {
    ASSERT(intr_get_status() == INTR_OFF);
    return ioq->head == ioq->tail;
 }

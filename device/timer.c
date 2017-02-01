@@ -48,22 +48,22 @@ static void intr_timer_handler(void) {
    }
 }
 
-/* 以tick为单位的sleep,任何时间形式的sleep会转换此ticks形式 */
+// 以tick为单位的sleep,任何时间形式的sleep会转换此ticks形式
 static void ticks_to_sleep(uint32_t sleep_ticks) {
    uint32_t start_tick = ticks;
 
-   /* 若间隔的ticks数不够便让出cpu */
-   while (ticks - start_tick < sleep_ticks) {
+   while (ticks - start_tick < sleep_ticks) {	   // 若间隔的ticks数不够便让出cpu
       thread_yield();
    }
 }
 
-/* 以毫秒为单位的sleep   1秒= 1000毫秒 */
+// 以毫秒为单位的sleep   1秒= 1000毫秒
 void mtime_sleep(uint32_t m_seconds) {
   uint32_t sleep_ticks = DIV_ROUND_UP(m_seconds, mil_seconds_per_intr);
   ASSERT(sleep_ticks > 0);
   ticks_to_sleep(sleep_ticks); 
 }
+
 
 /* 初始化PIT8253 */
 void timer_init() {

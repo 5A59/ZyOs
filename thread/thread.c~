@@ -8,9 +8,6 @@
 #include "memory.h"
 #include "process.h"
 #include "sync.h"
-#include "stdio.h"
-#include "file.h"
-#include "fs.h"
 
 #define PG_SIZE 4096
 
@@ -293,7 +290,7 @@ void thread_init(void) {
 	lock_init(&pid_lock);
 
 	// 创建第一个用户进程: init
-	// process_execute(init, "init");
+	process_execute(init, "init");
 
 	make_main_thread();
 

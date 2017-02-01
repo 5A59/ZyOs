@@ -47,19 +47,22 @@ struct stat {
 
 extern struct partition* cur_part;
 void filesys_init(void);
+char* path_parse(char* pathname, char* name_store);
 int32_t path_depth_cnt(char* pathname);
 int32_t sys_open(const char* pathname, uint8_t flags);
 int32_t sys_close(int32_t fd);
 int32_t sys_write(int32_t fd, const void* buf, uint32_t count);
+int32_t sys_read(int32_t fd, void* buf, uint32_t count);
 int32_t sys_lseek(int32_t fd, int32_t offset, uint8_t whence);
-int32_t sys_ulink(const char* pathname);
+int32_t sys_unlink(const char* pathname);
 int32_t sys_mkdir(const char* pathname);
 struct dir* sys_opendir(const char* pathname);
 int32_t sys_closedir(struct dir* dir);
-struct dir_entry* sys_readddir(struct dir* dir);
+struct dir_entry* sys_readdir(struct dir* dir);
 void sys_rewinddir(struct dir* dir);
 int32_t sys_rmdir(const char* pathname);
 char* sys_getcwd(char* buf, uint32_t size);
 int32_t sys_chdir(const char* path);
 int32_t sys_stat(const char* path, struct stat* buf);
+void sys_putchar(char char_asci);
 #endif
