@@ -131,7 +131,11 @@ void my_shell(void) {
       } else if (!strcmp("rm", argv[0])) {
 		 buildin_rm(argc, argv);
 	  } else if (!strcmp("about", argv[0])) {
-		 printf("!!! zyos is good !!!\n");
+		 printf("####################\n");
+		 printf("#                  #\n");
+		 printf("#   zyos is good   #\n");
+		 printf("#                  #\n");
+		 printf("####################\n");
       } else {
          printf("external command\n");
       }
