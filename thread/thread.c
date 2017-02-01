@@ -84,6 +84,19 @@ void init_thread(struct task_struct* pthread, char* name, int prio) {
 	pthread->ticks = prio;
 	pthread->elapsed_ticks = 0;
 	pthread->pgdir = NULL;
+
+	// 预留标准输入输出
+	pthread->fd_table[0] = 0; // 标准输入
+	pthread->fd_table[1] = 1; // 标准输出
+	pthread->fd_table[2] = 2; // 标准错误
+
+	uint8_t fd_idx = 3;
+	while (fd_idx < MAX_FILES_OPEN_PER_PROC) {
+		pthread->fd_table[fd_idx]  = -1;
+		fd_idx ++;
+	}
+
+	pthread->cwd_inode_nr = 0; // 根目录设为默认工作路径
 	pthread->stack_magic = 0x19870916; // 特殊一点的数就行，判断栈边界
 }
 

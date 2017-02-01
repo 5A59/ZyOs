@@ -5,6 +5,8 @@
 #include "bitmap.h"
 #include "memory.h"
 
+#define MAX_FILES_OPEN_PER_PROC 8 // 每个任务可打开的文件数
+
 // 自定义函数类型 作为线程调用的函数
 typedef void thread_func(void*);
 typedef int16_t pid_t;
@@ -71,12 +73,15 @@ struct task_struct {
 
 	uint32_t elapsed_ticks; // 任务执行多长时间
 
+	int32_t fd_table[MAX_FILES_OPEN_PER_PROC]; // 文件描述符数组
+
 	struct list_elem general_tag; // 线程在一般队列中的节点
 	struct list_elem all_list_tag; // 线程在线程队列thread_all_list中的节点
 
 	uint32_t* pgdir; // 进程自己页表的虚拟地址
 	struct virtual_addr userprog_vaddr; // 用户进程的虚拟地址
 	struct mem_block_desc u_block_desc[DESC_CNT]; // 用户进程内存块描述符
+	uint32_t cwd_inode_nr; // 进程所在工作目录的inode编号
 	uint32_t stack_magic; // 用于栈的边界标记 检测栈的溢出
 };
 

@@ -88,5 +88,5 @@ uint32_t printf(const char* format, ...) {
    char buf[1024] = {0};	       // 用于存储拼接后的字符串
    vsprintf(buf, format, args);
    va_end(args);
-   return write(buf); 
+   return write(1, buf, strlen(buf));
 }
